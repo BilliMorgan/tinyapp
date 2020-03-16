@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/BilliMorgan/tinyapp/issues"
   },
-  "homepage": "https://github.com/BilliMorgan/tinyapp#readme"
+  "homepage": "https://github.com/BilliMorgan/tinyapp#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
 }
