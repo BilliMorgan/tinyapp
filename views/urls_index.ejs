@@ -19,13 +19,15 @@
         <tr>
           <th scope="col">Short URL</th>
           <th scope="col">Long URL</th>
+          <th scope="col">Delete</th>
         </tr>
       </thead>
       <tbody>
         <% for(let url in urls) { %>              <!--looping through object in express_server.js -->
           <tr>
-            <td><a href="/urls/<%=url%> "><%= url %></a></td>     <!-- dead link for the future-->
+            <td><a href="/urls/<%=url%> "><%= url %></a></td>     <!-- dead link for the future -> done-->
             <td><a href="<%=urls[url]%>"><%= urls[url] %></a></td>
+            <td><form method="POST" action="/urls/<%=url%>/delete"><button>Delete</button></form></td>
           </tr>
         <% } %>
       </tbody>

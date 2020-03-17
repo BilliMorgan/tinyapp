@@ -34,7 +34,7 @@ app.post("/urls", (req, res) => {
   const longURL = req.body.longURL
   urlDatabase[shortURL] = longURL;
 
-  console.log(urlDatabase);
+  //console.log(urlDatabase);
   res.redirect(`/urls/${shortURL}`)            //needs to replace this
 })
 app.get("/", (req, res) => {
@@ -60,7 +60,7 @@ app.get("/urls/:shortURL", (req, res) => {
     
     // let templateVars = {shortURL: req.params.shortURL, longURL: urlDatabase[req.params.shortURL] };
   //  res.render("urls_show", templateVars)
-   res.redirect(longURL)
+   res.redirect("/urls")
   }
   // //need to check urlDatabase ???
   
@@ -82,6 +82,14 @@ app.get("/set", (req, res) => {
 app.get("/fetch", (req, res) => {
   res.send(`a = ${a}`)
 });
+
+// adding delete  to the urls_index
+app.post("/urls/:shortURL/delete", (req, res) => {
+  const del = req.params.shortURL;
+   delete urlDatabase[del];
+   //console.log(del);
+res.redirect("/urls")
+})
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}!`);
