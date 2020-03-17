@@ -24,8 +24,8 @@
       <tbody>
         <% for(let url in urls) { %>              <!--looping through object in express_server.js -->
           <tr>
-            <td><a href="#"><%= url %></a></td>     <!-- dead link for the future-->
-            <td><a href="#"><%= urls[url] %></a></td>
+            <td><a href="/urls/<%=url%> "><%= url %></a></td>     <!-- dead link for the future-->
+            <td><a href="<%=urls[url]%>"><%= urls[url] %></a></td>
           </tr>
         <% } %>
       </tbody>
