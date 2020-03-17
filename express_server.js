@@ -35,7 +35,7 @@ app.post("/urls", (req, res) => {
   urlDatabase[shortURL] = longURL;
 
   //console.log(urlDatabase);
-  res.redirect(`/urls/${shortURL}`)            //needs to replace this
+  res.redirect(`/urls/`)            //needs to replace this
 })
 app.get("/", (req, res) => {
   res.send("Hello");
@@ -44,6 +44,14 @@ app.get("/", (req, res) => {
 app.get("/urls", (req, res) => {
   let templateVars = { urls: urlDatabase };
   res.render("urls_index", templateVars);
+});
+//redirection to urls_show
+app.get("/urls/:shortURL/update/", (req, res) => {
+  
+  const shortURL = req.params.shortURL
+  const longURL = urlDatabase[shortURL]
+  const templateVars = {longURL, shortURL}
+  res.render("urls_show", templateVars)
 });
 
 app.get("/urls/new", (req, res) => {                                                                //get  urls/new
@@ -57,10 +65,9 @@ app.get("/urls/:shortURL", (req, res) => {
     res.statusCode = 404;
     res.send(" Sorry, code 404, Page Not Found");
   } else {
-    
     // let templateVars = {shortURL: req.params.shortURL, longURL: urlDatabase[req.params.shortURL] };
-  //  res.render("urls_show", templateVars)
-   res.redirect("/urls")
+    //  res.render("urls_show", templateVars)
+   res.redirect(longURL)
   }
   // //need to check urlDatabase ???
   
@@ -70,19 +77,6 @@ app.get("/urls.json", (req, res) => {
   res.json(urlDatabase);
 });
 
-app.get("/hello", (req, res) => {
-  res.send("<html><body>Hello <b>World</b></body></html>\n")
-});
-
-app.get("/set", (req, res) => {
-  const a = 1;
-  res.send(`a = ${a}`);
-});
-
-app.get("/fetch", (req, res) => {
-  res.send(`a = ${a}`)
-});
-
 // adding delete  to the urls_index
 app.post("/urls/:shortURL/delete", (req, res) => {
   const del = req.params.shortURL;
@@ -90,7 +84,28 @@ app.post("/urls/:shortURL/delete", (req, res) => {
    //console.log(del);
 res.redirect("/urls")
 })
+//adding edit option on urls_show.ejs
+app.post("/urls/:shortURL/update", (req, res) =>{
+  const shortURL = req.params.shortURL
+  const longURL = req.body.longURL
+  urlDatabase[shortURL] = longURL;
+res.redirect(`/urls/`)
+})
 
+
+
+app.get("/set", (req, res) => {
+  const a = 1;
+  res.send(`a = ${a}`);
+});
+
+app.get("/hello", (req, res) => {
+  res.send("<html><body>Hello <b>World</b></body></html>\n")
+});
+
+app.get("/fetch", (req, res) => {
+  res.send(`a = ${a}`)
+});
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}!`);
 });

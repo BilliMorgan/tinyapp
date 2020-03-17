@@ -13,10 +13,21 @@
   <div class="card text-center">
       <div class="card-header"></div>
       <div class="card-body">
-        <h5 class="card-title">TinyURL for: <%= longURL %></h5>                                 <!-- long URL-->
+        <h5 class="card-title">TinyURL for: <%= longURL %></h5>                                      <!-- long URL-->
         <p class="card-text">Short URL: <a href="/urls/<%= shortURL %>"><%= shortURL %></a></p>      <!-- short URL-->
-      </div>
-    <div class="card-footer text-muted"></div>
+      </div> 
+     
+    <div class="card-footer text-muted">
+      <h3>Edit</h3>
+      <form class="form-inline" action="/urls/<%= shortURL %>/update " method="POST">           <!-- form tag-->
+        <div class="form-group mb-2">
+          <label for="longURL">New URL:</label>
+          <input class="form-control" type="text" name="longURL" placeholder="http://" style="width: 300px; margin: 1em"> <!-- input name long url-->
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+      </form>
+    </div>
+   
   </div>
   <!-- Bootstrap JS -->
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
