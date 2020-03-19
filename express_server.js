@@ -4,6 +4,7 @@ const cookieParser = require("cookie-parser")
 const app = express();
 const PORT = 8080;
 const { checkEmail, checkPassword, getID, generateRandomString } = require('./helpers')
+const bcrypt = require('bcrypt')
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
@@ -12,7 +13,7 @@ app.set("view engine", "ejs");
 //obj with shortnames
 const urlDatabase = {
   "b2xVn2": { longURL: "http://www.lighthouselabs.ca", userID: "aJ48lW" },
-  "9sm5xK": { longURL: "http://www.google.com", userID: "aJ48lW" }
+  "9sm5xK": { longURL: "http://www.google.com", userID: "test" }
 };
 
 //obj with user id, names and emails
@@ -20,14 +21,15 @@ const users = {
   "userRandomID": {
     id: "userRandomID",
     email: "user@example.com",
-    password: "purple-monkey-dinosaur"
+    password: bcrypt.hashSync("123", 10)
   },
   "test": {
     id: "test",
     email: "test1@t.ca",
-    password: "123"
+    password: bcrypt.hashSync("123", 10)
   }
 };
+
 //function which create a new obj with URL which belong only to certain userID
 const urlsForUser = (id, urlDatabase) => {
   const ObjUserID = {};
@@ -140,10 +142,13 @@ app.post("/register", (req, res) => {
   if (checkEmail(req.body.email, users) !== true) {
     const id = generateRandomString();
     const email = req.body.email;
-    const password = req.body.password;
-    users[id] = { id, email, password }
+    const password = req.body.password; // should I delete this password - NO
+    const hashedPassword = bcrypt.hashSync(password, 10)
+    users[id] = { id, email, password: hashedPassword }
     res.cookie('user_id', id)
+    console.log(users)
     res.redirect('/u')
+    
   } else {
     res.statusCode = 400;
     res.send("Proceed to login, please. Code 400")
@@ -159,14 +164,15 @@ app.get("/login", (req, res) => {
 app.post("/login", (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
-  if (getID(email, password, users) !== false) {
-    res.cookie('user_id', getID(email, password, users))
+  if (getID(email, users) !== false &&  bcrypt.compareSync(password, users[getID(email,users)].password) === true) {
+    res.cookie('user_id', getID(email, users))
     res.redirect('/u')
   } else {
     res.statusCode = 403;
     res.send("no such users or passwords have been registerred. Code 403")//nned features to indicate that pasword 
   }
 })
+
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}!`);
 });

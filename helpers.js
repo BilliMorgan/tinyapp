@@ -1,3 +1,4 @@
+const bcrypt = require('bcrypt')
 const users = {
   "userRandomID": {
     id: "userRandomID",
@@ -33,10 +34,11 @@ const checkPassword = (passwordToCheck, databaseObj) => {
 
 
 
-const getID = (email, password, databaseObj) => {
+const getID = (email, databaseObj) => {
 for(let id in databaseObj){
   //console.log(id)
-  if(databaseObj[id].email === email && databaseObj[id].password === password){
+  if(databaseObj[id].email === email) {
+    
     return id;
   }
 }
