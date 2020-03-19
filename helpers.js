@@ -16,7 +16,7 @@ for (elem in databaseObj){
 }
   return bool;
 }
-console.log(checkEmail("user@example.com", users))
+//console.log(checkEmail("user@example.com", users))
 
 
 
@@ -29,21 +29,38 @@ const checkPassword = (passwordToCheck, databaseObj) => {
   }
   return bool;
 }
-console.log(checkPassword("purple-monkey-dinosaur", users))
+//console.log(checkPassword("purple-monkey-dinosaur", users))
 
 
 
 const getID = (email, password, databaseObj) => {
 for(let id in databaseObj){
-  console.log(id)
+  //console.log(id)
   if(databaseObj[id].email === email && databaseObj[id].password === password){
     return id;
   }
 }
 return false;
 };
-console.log(getID("user@example.com","purple-monkey-dinosaur", users))
+//console.log(getID("user@example.com","purple-monkey-dinosaur", users))
 
+const randomNum = (min, max) => {
+  return Math.floor(Math.random() * (max - min)) + min;
+};
+//random strng function
+const generateRandomString = () => {
+  let randomKey = "";
+  for (let i = 0; i < 6; i++) {
+    const randomCase = randomNum(0, 3);
+    if (randomCase === 0) {
+      randomKey += randomNum(0, 9);
+    } else if (randomCase === 1) {
+      randomKey += String.fromCharCode(randomNum(65, 90));
+    } else {
+      randomKey += String.fromCharCode(randomNum(97, 122));
+    }
+  }
+  return randomKey;
+};
 
-
-module.exports = { checkEmail, checkPassword, getID };
+module.exports = { checkEmail, checkPassword, getID, generateRandomString };
