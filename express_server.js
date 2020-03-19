@@ -1,11 +1,16 @@
 const express = require("express");
 const bodyParser = require("body-parser")
-const cookieParser = require("cookie-parser")
+const cookieSession = require("cookie-session")
 const app = express();
 const PORT = 8080;
 const { checkEmail, checkPassword, getID, generateRandomString } = require('./helpers')
 const bcrypt = require('bcrypt')
-app.use(cookieParser());
+app.use(cookieSession({
+  name: 'session',
+  keys: ["user_id"]
+}
+
+));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 
