@@ -44,6 +44,10 @@ const urlsForUser = (id, urlDatabase) => {
   }
   return ObjUserID;
 };
+//starter page
+app.get("/", (req,res) => {
+  res.redirect("/u")
+});
 
 //index page
 app.get("/u", (req, res) => {
@@ -154,7 +158,7 @@ app.post("/register", (req, res) => {
     res.redirect('/u');
   } else {
     res.statusCode = 400;
-    res.send("Proceed to login, please. Code 400");
+    res.send("Your email is registered already. Proceed to login, please. Code 400");
   }
 });
 
