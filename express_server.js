@@ -158,13 +158,16 @@ app.post("/register", (req, res) => {
     res.redirect('/u');
   } else {
     res.statusCode = 400;
-    res.send("Your email is registered already. Proceed to login, please. Code 400");
+    res.send(
+      "Your email is registered already. Proceed to the login page, please. Code 400"
+    );
   }
 });
 
 //adding login functionality
 app.get("/login", (req, res) => {
-  res.render("urls_login", { username: req.session.user_id })
+  const templateVars = { username: req.session.user_id }
+  res.render("urls_login", templateVars)
 });
 
 //adding login feature in header
@@ -176,10 +179,12 @@ app.post("/login", (req, res) => {
     res.redirect('/u');
   } else {
     res.statusCode = 403;
-    res.send("no such users or passwords have been registerred. Code 403");
+    res.send(
+      "There is no such user or password has not been registered. Code 403"
+    );
   }
 });
 
 app.listen(PORT, () => {
-  console.log(`Example app listening on port ${PORT}!`);
+  console.log(`Tiny app is listening on port ${PORT}!`);
 });
